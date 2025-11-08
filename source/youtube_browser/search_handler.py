@@ -1,5 +1,8 @@
 from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch, Playlist
 from utiles import time_formatting
+from logger_config import get_logger
+
+logger = get_logger(__name__)
 
 
 
@@ -55,6 +58,7 @@ class PlaylistResult:
 
 class Search:
 	def __init__(self, query, filter=0):
+		logger.info(f"Initializing Search with query: '{query}', filter: {filter}")
 		self.query = query
 		self.filter = filter
 		self.results = {}
@@ -65,32 +69,55 @@ class Search:
 			3: "CAMSAhAB", 
 			4: "EgIQA"
 		}
-		if self.filter == 0:
-			self.search = VideosSearch(self.query)
-		elif self.filter == 4:
+		try:
+			if self.filter == 0:
+				logger.debug("Creating VideosSearch")
+				self.search = VideosSearch(self.query)
+			elif self.filter == 4:
+				logger.debug("Creating PlaylistsSearch")
 				self.search = PlaylistsSearch(self.query)
-		else:
-			self.search = CustomSearch(self.query, filters[self.filter])
-		self.parse_results()
-
-	def parse_results(self):
-		results = self.search.result()["result"]
-		for result in results:
-			self.results[self.count] = {
-				"type": result["type"],
-				"title": result["title"],
-				"url": result["link"], 
-				"duration": result.get("duration"),
-				"elements": result.get("videoCount"),
-				"channel": {
-					"name": result["channel"]["name"], 
-					"url": f"https://www.youtube.com/channel/{result['channel']['id']}"}
-			}
-			if result["type"] == "video":
-				self.results[self.count]["views"] = self.parse_views(result["viewCount"]["text"])
 			else:
-				self.results[self.count]["views"] = None
-			self.count += 1
+				logger.debug(f"Creating CustomSearch with filter: {filters[self.filter]}")
+				self.search = CustomSearch(self.query, filters[self.filter])
+			logger.debug("Loading initial search results...")
+			self.load_more()
+			logger.info(f"Search initialized successfully with {self.count-1} results")
+		except Exception as e:
+			logger.error(f"Failed to initialize search: {type(e).__name__}: {str(e)}")
+			raise
+
+	def load_more(self):
+		logger.info("Loading more search results...")
+		try:
+			results = self.search.result()["result"]
+			initial_count = self.count
+			logger.debug(f"Processing {len(results)} additional results")
+			
+			for i, result in enumerate(results):
+				logger.debug(f"Processing result {i+1}/{len(results)}: {result.get('title', 'N/A')}")
+				self.results[self.count] = {
+					"type": result["type"],
+					"title": result["title"],
+					"url": result["link"], 
+					"duration": result.get("duration"),
+					"elements": result.get("videoCount"),
+					"channel": {
+						"name": result["channel"]["name"], 
+						"url": f"https://www.youtube.com/channel/{result['channel']['id']}"}
+				}
+				if result["type"] == "video":
+					self.results[self.count]["views"] = self.parse_views(result["viewCount"]["text"])
+				else:
+					self.results[self.count]["views"] = None
+				self.count += 1
+			
+			logger.info(f"Loaded {self.count - initial_count} more results. Total: {self.count-1}")
+		except KeyError as e:
+			logger.error(f"KeyError while loading more results - missing key: {str(e)}")
+			raise
+		except Exception as e:
+			logger.error(f"Failed to load more results: {type(e).__name__}: {str(e)}")
+			raise
 	def get_titles(self):
 		titles = []
 		for result, data  in self.results.items():
@@ -118,15 +145,49 @@ class Search:
 	def get_channel(self, number):
 		return self.results[number+1]["channel"]
 
-	def load_more(self):
+	def load_more_next_page(self):
+		"""Load the next page of search results"""
+		logger.info("Attempting to load next page of search results...")
 		try:
 			self.search.next()
-		except:
-			return
+			logger.debug("search.next() called successfully")
+		except Exception as e:
+			logger.warning(f"No more results to load: {type(e).__name__}: {str(e)}")
+			return False
 		current = self.count
-		self.parse_results()
-		self.new_videos = self.count-current
-		return True
+		logger.debug(f"Current result count before parsing: {current}")
+		# Now parse the new results from the next page
+		try:
+			results = self.search.result()["result"]
+			logger.debug(f"Processing {len(results)} additional results from next page")
+			
+			for i, result in enumerate(results):
+				logger.debug(f"Processing result {i+1}/{len(results)}: {result.get('title', 'N/A')}")
+				self.results[self.count] = {
+					"type": result["type"],
+					"title": result["title"],
+					"url": result["link"], 
+					"duration": result.get("duration"),
+					"elements": result.get("videoCount"),
+					"channel": {
+						"name": result["channel"]["name"], 
+						"url": f"https://www.youtube.com/channel/{result['channel']['id']}"}
+				}
+				if result["type"] == "video":
+					self.results[self.count]["views"] = self.parse_views(result["viewCount"]["text"])
+				else:
+					self.results[self.count]["views"] = None
+				self.count += 1
+			
+			self.new_videos = self.count-current
+			logger.info(f"Loaded {self.new_videos} new videos. Total: {self.count-1}")
+			return True
+		except KeyError as e:
+			logger.error(f"KeyError while loading next page - missing key: {str(e)}")
+			raise
+		except Exception as e:
+			logger.error(f"Failed to load next page: {type(e).__name__}: {str(e)}")
+			raise
 	def parse_views(self, string):
 		try:
 			string = string.replace(",", "")

@@ -861,7 +861,31 @@ msgstr "options"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:105
 msgid "تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."
-msgstr "unabled to get search results due to a network connection."
+msgstr "Unable to get search results due to a network connection error."
+
+msgid "هل تريد المحاولة مرة أخرى؟"
+msgstr "Would you like to try again?"
+
+msgid "تفاصيل الخطأ"
+msgstr "Error details"
+
+msgid "خطأ في تحليل نتائج البحث. قد تكون واجهة YouTube API قد تغيرت."
+msgstr "Error parsing search results. YouTube API may have changed."
+
+msgid "فشل الاتصال بخوادم YouTube. تحقق من اتصال الإنترنت."
+msgstr "Failed to connect to YouTube servers. Check your internet connection."
+
+msgid "تم تجاوز حد الطلبات. يرجى الانتظار قليلاً وإعادة المحاولة."
+msgstr "Rate limit exceeded. Please wait a moment and try again."
+
+msgid "تم رفض الوصول من قبل YouTube. قد تحتاج إلى تحديث المكتبات."
+msgstr "Access denied by YouTube. You may need to update the libraries."
+
+msgid "تعذر إجراء عملية البحث. لم يتم الحصول على نتائج."
+msgstr "Unable to perform search. No results were obtained."
+
+msgid "خطأ في توافق المكتبات. يرجى تحديث youtube-search-python:\nuv pip install --upgrade youtube-search-python requests"
+msgstr "Library compatibility error. Please update youtube-search-python:\nuv pip install --upgrade youtube-search-python requests"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:250
 msgid "جاري تحميل المزيد من النتائج"

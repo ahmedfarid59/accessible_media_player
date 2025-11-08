@@ -4,12 +4,17 @@ import yt_dlp as youtube_dl
 import wx
 import re
 from settings_handler import config_get
+from logger_config import get_logger
+
+logger = get_logger(__name__)
 
 
 
 class Downloader:
 	def __init__(self, url, path, downloading_format, monitor, monitor1, convert=False, folder=False):
 		# initializing class properties
+		logger.info(f"Initializing Downloader for URL: {url}")
+		logger.debug(f"Download path: {path}, format: {downloading_format}, convert: {convert}, folder: {folder}")
 		self.url = url
 		self.path = path
 		self.downloading_format = downloading_format
@@ -100,18 +105,26 @@ class Downloader:
 			youtubeDownloader.download([self.url])
 
 def downloadAction(url, path, dlg, downloading_format, monitor, monitor1, convert=False, folder=False):
+	logger.info(f"Starting download action for URL: {url}")
 	downloader = Downloader(url, path, downloading_format, monitor, monitor1, convert=convert, folder=folder)
 	wx.CallAfter(dlg.Show)
 	def attempt(at):
+		logger.debug(f"Download attempt {at+1}/3")
 		try:
 			downloader.download()
+			logger.info("Download completed successfully")
 			return True
-		except youtube_dl.utils.DownloadError:
+		except youtube_dl.utils.DownloadError as e:
+			logger.error(f"Download error on attempt {at+1}: {str(e)}")
 			if at < 3:
 				attempt(at+1)
 			else:
+				logger.error("All download attempts failed")
 				wx.MessageBox(_("لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR, parent=dlg)
 				wx.CallAfter(dlg.Destroy)
+		except Exception as e:
+			logger.error(f"Unexpected error during download: {type(e).__name__}: {str(e)}")
+			raise
 	if attempt(0):
 		wx.MessageBox(_("اكتمل التنزيل بنجاح"), _("نجاح"), parent=dlg)
 		wx.CallAfter(dlg.Destroy)

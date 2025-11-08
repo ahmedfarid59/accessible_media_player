@@ -1,12 +1,17 @@
 import wx
 from threading import Thread
+from logger_config import get_logger
 
+logger = get_logger(__name__)
 
 class LoadingDialog(wx.Dialog):
     def __init__(self, parent, msg, function, *args, **kwargs):
         self.function = function
         self.args = args
         self.kwargs = kwargs
+        self.res = None  # Initialize res to None
+        self.error = None  # Store any error that occurs
+        logger.debug(f"LoadingDialog created for function: {function.__name__}")
         super().__init__(parent)
         self.CenterOnParent()
         p = wx.Panel(self)
@@ -27,11 +32,15 @@ class LoadingDialog(wx.Dialog):
         self.ShowModal()
     def run(self):
         try:
+            logger.info(f"Executing function: {self.function.__name__} with args: {self.args[:2] if len(self.args) > 2 else self.args}")
             self.res = self.function(*self.args, **self.kwargs)
+            logger.info(f"Function {self.function.__name__} completed successfully")
             wx.CallAfter(self.Destroy)
         except Exception as e:
+            logger.error(f"Function {self.function.__name__} failed: {type(e).__name__}: {str(e)}")
+            self.error = e  # Store the error
             wx.CallAfter(self.Destroy)
-            raise e
+            # Don't raise here, let the caller handle it
     def onHook(self, event):
         if event.KeyCode in (wx.WXK_DOWN, wx.WXK_UP, wx.WXK_LEFT, wx.WXK_RIGHT):
             self.message.SetFocus()

@@ -5,4 +5,5 @@ pyperclip
 python-vlc
 yt-dlp
 youtube-search-python
+httpx<0.28  # Required: httpx 0.28+ removed proxies parameter that youtube-search-python uses
 wxpython

@@ -5,8 +5,11 @@ from threading import Thread
 
 import pyperclip
 import wx
+from logger_config import get_logger
 from gui.download_progress import DownloadProgress
 from gui.search_dialog import SearchDialog
+
+logger = get_logger(__name__)
 from gui.settings_dialog import SettingsDialog
 from gui.playlist_dialog import PlaylistDialog
 from gui.activity_dialog import LoadingDialog
@@ -93,18 +96,65 @@ class YoutubeBrowser(wx.Frame):
 		self.togleFavorite()
 
 	def searchAction(self, value=""):
+		logger.info(f"Search action initiated with value: {value}")
 		dialog = SearchDialog(self, value=value)
 		query = dialog.query
 		filter = dialog.filter
+		logger.info(f"Search query: '{query}', filter: {filter}")
+		
 		if query is None:
+			logger.debug("Search cancelled by user")
 			self.togleControls()
 			return
-		try:
-			self.search = LoadingDialog(self, _("جاري البحث"), Search, query, filter).res
-		except:
-			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
-			self.searchAction(query)
+		
+		# Run the search in LoadingDialog
+		logger.info("Starting YouTube search...")
+		loading_dlg = LoadingDialog(self, _("جاري البحث"), Search, query, filter)
+		
+		# Check if an error occurred
+		if loading_dlg.error is not None:
+			import traceback
+			e = loading_dlg.error
+			error_details = str(e)
+			logger.error(f"Search failed with error: {type(e).__name__}: {error_details}")
+			logger.debug(f"Full traceback:\n{traceback.format_exception(type(e), e, e.__traceback__)}")
+			print(f"Search error: {e}")
+			print(f"Full traceback:\n{traceback.format_exception(type(e), e, e.__traceback__)}")
+			
+			# More specific error messages
+			error_msg = _("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة.")
+			
+			if "unexpected keyword argument 'proxies'" in error_details or "got an unexpected keyword argument" in error_details:
+				error_msg = _("خطأ في توافق المكتبات. يرجى تحديث youtube-search-python:\nuv pip install --upgrade youtube-search-python requests")
+			elif "KeyError" in str(type(e).__name__):
+				error_msg = _("خطأ في تحليل نتائج البحث. قد تكون واجهة YouTube API قد تغيرت.")
+			elif "ConnectionError" in str(type(e).__name__) or "Timeout" in str(type(e).__name__):
+				error_msg = _("فشل الاتصال بخوادم YouTube. تحقق من اتصال الإنترنت.")
+			elif "HTTPError" in str(type(e).__name__):
+				if "429" in error_details:
+					error_msg = _("تم تجاوز حد الطلبات. يرجى الانتظار قليلاً وإعادة المحاولة.")
+				elif "403" in error_details:
+					error_msg = _("تم رفض الوصول من قبل YouTube. قد تحتاج إلى تحديث المكتبات.")
+			
+			# Show detailed error in dialog
+			full_msg = f"{error_msg}\n\n{_('تفاصيل الخطأ')}: {error_details[:200]}\n\n{_('هل تريد المحاولة مرة أخرى؟')}"
+			result = wx.MessageBox(full_msg, _("خطأ"), style=wx.YES_NO | wx.ICON_ERROR)
+			if result == wx.YES:
+				self.searchAction(query)
+			return False
+		
+		# Check if result is valid
+		if loading_dlg.res is None:
+			logger.warning("Search returned None result")
+			error_msg = _("تعذر إجراء عملية البحث. لم يتم الحصول على نتائج.")
+			result = wx.MessageBox(f"{error_msg}\n\n{_('هل تريد المحاولة مرة أخرى؟')}", _("خطأ"), style=wx.YES_NO | wx.ICON_ERROR)
+			if result == wx.YES:
+				self.searchAction(query)
+			return False
+		
+		self.search = loading_dlg.res
 		titles = self.search.get_titles()
+		logger.info(f"Search successful. Found {len(titles)} results")
 		self.searchResults.Set(titles)
 		self.togleControls()
 		try:
@@ -114,6 +164,7 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.SetFocus()
 		self.togleDownload()
 		self.toglePlay()
+		logger.debug("Search action completed successfully")
 		return True
 
 	def onSearch(self, event):

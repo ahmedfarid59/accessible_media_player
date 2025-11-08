@@ -4,6 +4,9 @@ from datetime import timedelta
 from utiles import time_formatting
 from threading import Thread
 from settings_handler import config_get
+from logger_config import get_logger
+
+logger = get_logger(__name__)
 
 instance = vlc.Instance()
 
@@ -11,18 +14,24 @@ media_player = instance.media_player_new()
 
 class Player:
 	def __init__(self,filename, hwnd, window=None):
+		logger.info(f"Initializing Player for file: {filename}")
 		self.do_reset = False
 		self.window = window
 		self.filename = filename
 		self.hwnd = hwnd
 		self.media = media_player
-		self.set_media(self.filename)
-		self.media.set_hwnd(self.hwnd)
-		self.manager = self.media.event_manager()
-		self.manager.event_attach(vlc.EventType.MediaPlayerEndReached,self.onEnd)
-		self.media.play()
-		self.volume = int(config_get("volume"))
-		self.media.audio_set_volume(self.volume)
+		try:
+			self.set_media(self.filename)
+			self.media.set_hwnd(self.hwnd)
+			self.manager = self.media.event_manager()
+			self.manager.event_attach(vlc.EventType.MediaPlayerEndReached,self.onEnd)
+			self.media.play()
+			self.volume = int(config_get("volume"))
+			self.media.audio_set_volume(self.volume)
+			logger.info(f"Player initialized successfully, volume: {self.volume}")
+		except Exception as e:
+			logger.error(f"Failed to initialize player: {type(e).__name__}: {str(e)}")
+			raise
 	def onEnd(self,event):
 		if event.type == vlc.EventType.MediaPlayerEndReached:
 			self.do_reset = True

@@ -6,6 +6,13 @@ os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import settings_handler
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+
+# Set up logging
+from logger_config import setup_logging, get_logger
+setup_logging()
+logger = get_logger(__name__)
+
+logger.info("Initializing application modules...")
 import database
 import application
 import pyperclip
@@ -42,11 +49,13 @@ init_translation("accessible_youtube_downloader") # program localization
 class HomeScreen(wx.Frame):
 	# the main class
 	def __init__(self):
+		logger.info("Initializing HomeScreen")
 		wx.Frame.__init__(self, parent=None, title=application.name)
 		self.Centre()
 		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		panel = wx.Panel(self)
+		logger.debug("HomeScreen UI created")
 		self.instruction = CustomLabel(panel, -1, _("اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة.")) # a breafe instruction message witch is shown by the custome StaticText to automaticly be focused when launching the app
 		youtubeBrowseButton = wx.Button(panel, -1, _("البحث في youtube\tctrl+f"), name="tab")
 		downloadFromLinkButton = wx.Button(panel, -1, _("التنزيل من خلال رابط\tctrl+d"), name="tab")
@@ -68,6 +77,7 @@ class HomeScreen(wx.Frame):
 		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))# download link item
 		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y")) # play youtube link item
 		favoriteItem = mainMenu.Append(-1, _("الفيديوهات المفضلة	ctrl+shift+f"))
+		openLocalFileItem = mainMenu.Append(-1, _("فتح ملف وسائط محلي\tctrl+o")) # open local media file item
 		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
 		settingsItem = mainMenu.Append(-1, _("الإعدادات...\talt+s")) # settings item
 		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
@@ -76,6 +86,7 @@ class HomeScreen(wx.Frame):
 			(wx.ACCEL_CTRL, ord("D"), downloadItem.GetId()),
 			(wx.ACCEL_CTRL, ord("Y"), playItem.GetId()),
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("F"), favoriteItem.GetId()),
+			(wx.ACCEL_CTRL, ord("O"), openLocalFileItem.GetId()),
 			(wx.ACCEL_CTRL, ord("P"), openDownloadingPathItem.GetId()),
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), exitItem.GetId())
@@ -102,6 +113,7 @@ class HomeScreen(wx.Frame):
 		playYoutubeLinkButton.Bind(wx.EVT_BUTTON, self.onPlay)
 		self.Bind(wx.EVT_MENU, self.onFavorite, favoriteItem)
 		favButton.Bind(wx.EVT_BUTTON, self.onFavorite)
+		self.Bind(wx.EVT_MENU, self.onOpenLocalFile, openLocalFileItem)
 		self.Bind(wx.EVT_MENU, self.onOpen, openDownloadingPathItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
@@ -140,6 +152,40 @@ class HomeScreen(wx.Frame):
 	def onFavorite(self, event):
 		Favorites(self)
 		self.Hide()
+	
+	def onOpenLocalFile(self, event):
+		"""Open a local media file with the media player"""
+		logger.info("Opening local file dialog")
+		wildcard = "Media files (*.mp4;*.avi;*.mkv;*.webm;*.flv;*.mp3;*.m4a;*.wav;*.flac;*.ogg)|*.mp4;*.avi;*.mkv;*.webm;*.flv;*.mp3;*.m4a;*.wav;*.flac;*.ogg|All files (*.*)|*.*"
+		dlg = wx.FileDialog(self, _("اختر ملف وسائط"), "", "", wildcard, wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+		
+		if dlg.ShowModal() == wx.ID_OK:
+			file_path = dlg.GetPath()
+			logger.info(f"User selected file: {file_path}")
+			self.openLocalMediaFile(file_path)
+		else:
+			logger.debug("User cancelled file dialog")
+		dlg.Destroy()
+	
+	def openLocalMediaFile(self, file_path):
+		"""Open and play a local media file"""
+		logger.info(f"Opening local media file: {file_path}")
+		if not os.path.exists(file_path):
+			logger.error(f"File does not exist: {file_path}")
+			wx.MessageBox(_("الملف غير موجود"), _("خطأ"), wx.OK | wx.ICON_ERROR, self)
+			return
+		
+		file_name = os.path.basename(file_path)
+		# Create a simple object to mimic stream object
+		class LocalStream:
+			def __init__(self, path, name):
+				self.url = path
+				self.title = name
+		
+		stream = LocalStream(file_path, file_name)
+		gui = MediaGui(self, file_name, stream, file_path, can_download=False)
+		self.Hide()
+	
 	def onOpen(self, event):
 		path = settings_handler.config_get("path")
 		if not os.path.exists(path):
@@ -180,5 +226,15 @@ class HomeScreen(wx.Frame):
 app = wx.App()
 lang_id = codes.get(settings_handler.config_get("lang"), wx.LANGUAGE_ARABIC)
 locale = wx.Locale(lang_id)
-HomeScreen()
+home = HomeScreen()
+
+# Check if a file was passed as a command-line argument (for file associations)
+if len(sys.argv) > 1:
+	file_path = sys.argv[1]
+	if os.path.exists(file_path):
+		# Check if it's a media file
+		valid_extensions = ['.mp4', '.avi', '.mkv', '.webm', '.flv', '.mp3', '.m4a', '.wav', '.flac', '.ogg']
+		if any(file_path.lower().endswith(ext) for ext in valid_extensions):
+			home.openLocalMediaFile(file_path)
+
 app.MainLoop()
