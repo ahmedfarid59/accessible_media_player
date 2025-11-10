@@ -1,5 +1,5 @@
 import os
 
-settings_path = os.path.join(os.getenv("appdata"), "accessible youtube downloader pro")
+settings_path = os.path.join(os.getenv("appdata"), "Accessible Media Player")
 update_path = os.path.join(settings_path, "updates")
-db_path = os.path.join(settings_path, "accessible_youtube_downloader_pro.db")
+db_path = os.path.join(settings_path, "accessible_media_player.db")

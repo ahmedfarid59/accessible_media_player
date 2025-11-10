@@ -24,8 +24,8 @@ An accessible YouTube browser, downloader, and media player desktop application 
 
 ### Quick Start
 
-1. **Download** the latest version from [GitHub Releases](https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/releases)
-2. **Run** the executable - **no installation required!**
+1. **Download** the latest version from [GitHub Releases](https://github.com/ahmedfarid59/accessible_media_player/releases)
+2. **Run** the installer or portable executable
 3. **Start searching** for YouTube videos
 
 ### 📖 Documentation
@@ -71,9 +71,8 @@ pip install --upgrade youtube-search-python yt-dlp requests
 ### Logs
 
 The application includes comprehensive logging:
-- **Location:** `%APPDATA%\accessible youtube downloader pro\logs\app_YYYYMMDD.log`
+- **Location:** `%APPDATA%\Accessible Media Player\logs\app_YYYYMMDD.log`
 - **What's logged:** Searches, downloads, playback, errors
-- **See:** [Logging Documentation](LOGGING.md)
 
 When reporting issues, include relevant ERROR messages from the log file.
 
@@ -106,15 +105,27 @@ python build.py --clean --installer
 
 ---
 
-## Author
-**Ahmed Farid** - Lead Developer
+## Credits
 
-## Contributors
+### Development
+**Current Developer & Maintainer:** Ahmed Farid  
+**Original Developer:** Sulaiman Al Qusaimi (Accessible YouTube Downloader Pro)  
+**Original Repository:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro
+
+This project is based on the original **Accessible YouTube Downloader Pro** by **Sulaiman Al Qusaimi**. Ahmed Farid has enhanced and continues to maintain the project with new features and improvements.
+
+### Contributors
 * Abdullah Zain Aldeen, Morocco
 * Mustafa Elçiçek, Turkey
 
+### Acknowledgments
+Special thanks to **Sulaiman Al Qusaimi** for creating the original accessible YouTube application that this project builds upon.
+
+**Original Project:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro
+
 ## License
-Copyright © 2024 Ahmed Farid
+Copyright © 2024 Ahmed Farid  
+Original Work © Sulaiman Al Qusaimi
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
 See [LICENSE](LICENSE) file for details.

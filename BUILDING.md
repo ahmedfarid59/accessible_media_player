@@ -49,8 +49,8 @@ pip install pyinstaller
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro.git
-   cd accessible_youtube_downloader_pro
+   git clone https://github.com/ahmedfarid59/accessible_media_player.git
+   cd accessible_media_player
    ```
 
 2. **Create a virtual environment (recommended):**
@@ -71,7 +71,7 @@ pip install pyinstaller
 
 4. **Run from source to test:**
    ```bash
-   python source\accessible_youtube_downloader_pro.py
+   python source\accessible_media_player.py
    ```
 
 ## Building the Executable
@@ -87,7 +87,7 @@ python build.py
 This will:
 1. Check all dependencies
 2. Generate version info from `source/__version__.py`
-3. Run PyInstaller with the configuration in `accessible_youtube_downloader_pro.spec`
+3. Run PyInstaller with the configuration in `accessible_media_player.spec`
 4. Validate the build
 5. Rename the executable with the version number
 6. Update `update_info.json` with the new version
@@ -95,7 +95,7 @@ This will:
 ### Output
 
 The build process creates:
-- `dist/accessible_youtube_downloader_pro_X.Y.Z.exe` - The distributable executable
+- `dist/accessible_media_player_X.Y.Z/` - Directory with the distributable executable
 - `build/` - Temporary build files (can be deleted)
 
 ## Build Options
@@ -114,7 +114,7 @@ Build without creating the final distributable (useful for quick testing):
 python build.py --test
 ```
 
-This creates `dist/accessible_youtube_downloader_pro.exe` without renaming or updating version files.
+This creates `dist/accessible_media_player/accessible_media_player.exe` without renaming or updating version files.
 
 ## Testing the Build
 
@@ -122,7 +122,7 @@ After building, test the executable:
 
 1. **Run the executable:**
    ```bash
-   dist\accessible_youtube_downloader_pro_1.5.7.exe
+   dist\accessible_media_player_1.5.7\accessible_media_player.exe
    ```
 
 2. **Test key features:**
@@ -199,7 +199,7 @@ python build.py --clean
 
 Test the executable thoroughly:
 ```bash
-dist\accessible_youtube_downloader_pro_1.5.8.exe
+dist\accessible_media_player_1.5.8\accessible_media_player.exe
 ```
 
 ### 4. Create GitHub Release
@@ -236,17 +236,18 @@ Users running older versions should see an update notification pointing to the n
 ## Project Structure
 
 ```
-accessible_youtube_downloader_pro/
+accessible_media_player/
 ├── source/                          # Source code
 │   ├── __version__.py              # Version info (single source of truth)
-│   ├── accessible_youtube_downloader_pro.py  # Main entry point
+│   ├── accessible_media_player.py  # Main entry point
 │   ├── assets/                     # Icons, version_info.txt
 │   ├── docs/                       # User documentation
 │   ├── gui/                        # GUI components
 │   ├── languages/                  # Translation files
 │   └── plugins/                    # VLC plugins
 ├── build.py                        # Build automation script
-├── accessible_youtube_downloader_pro.spec  # PyInstaller configuration
+├── accessible_media_player.spec    # PyInstaller configuration
+├── installer.iss                   # Inno Setup installer script
 ├── requirements.txt                # Python dependencies
 ├── update_info.json               # Auto-update configuration
 └── README.md                      # User documentation
@@ -269,14 +270,14 @@ Never edit the generated files directly. Always update `__version__.py` and run 
 
 For development, run directly from source:
 ```bash
-python source\accessible_youtube_downloader_pro.py
+python source\accessible_media_player.py
 ```
 
 ### Debugging Build Issues
 
 Add debug output to PyInstaller:
 ```bash
-pyinstaller accessible_youtube_downloader_pro.spec --debug=all
+pyinstaller accessible_media_player.spec --debug=all
 ```
 
 ### Quick Iteration
@@ -331,8 +332,8 @@ Before submitting changes:
 
 ### Resources
 
-- **Issues:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/issues
-- **Discussions:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/discussions
+- **Issues:** https://github.com/ahmedfarid59/accessible_media_player/issues
+- **Discussions:** https://github.com/ahmedfarid59/accessible_media_player/discussions
 - **Email:** Contact Ahmed Farid through GitHub
 
 ### Community

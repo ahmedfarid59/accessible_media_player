@@ -4,8 +4,13 @@ import sys
 import os
 os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
+
+# Suppress VLC plugin cache warnings
+os.environ['VLC_PLUGIN_PATH'] = os.path.join(os.getcwd(), 'plugins')
+os.environ['VLC_VERBOSE'] = '-1'  # Suppress VLC verbose output
+
 import settings_handler
-settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+settings_handler.config_initialization() # calling the config_initialization function which sets up the settings.ini file in the user appdata folder
 
 # Set up logging
 from logger_config import setup_logging, get_logger
@@ -40,7 +45,7 @@ from threading import Thread
 
 
 
-settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+settings_handler.config_initialization() # calling the config_initialization function which sets up the settings.ini file in the user appdata folder
 init_translation("accessible_youtube_downloader") # program localization
 
 
@@ -198,7 +203,7 @@ class HomeScreen(wx.Frame):
 			if content is None:
 				event.Skip()
 				return
-			Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content)
+			Viewer(self, _("دليل استخدام برنامج Accessible Media Player"), content)
 		event.Skip()
 	def onShow(self, event):
 		self.instruction.SetFocus()
@@ -206,7 +211,7 @@ class HomeScreen(wx.Frame):
 		content = documentation_get()
 		if content is None:
 			return
-		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content).ShowModal()
+		Viewer(self, _("دليل استخدام برنامج Accessible Media Player"), content).ShowModal()
 	def onCheckForUpdates(self, event):
 		from gui.activity_dialog import LoadingDialog
 		# speak(_("جاري البحث عن التحديثات. يرجى الانتظار"))

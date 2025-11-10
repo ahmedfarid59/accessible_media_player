@@ -1,9 +1,21 @@
 # Accessible Media Player - User Guide
 
 **Version 1.5.7**  
-**Author: Ahmed Farid**
+**Developed by: Ahmed Farid**
 
 Welcome to Accessible Media Player, a fully accessible YouTube browser, downloader, and media player designed specifically for NVDA screen reader users.
+
+---
+
+## Credits and Acknowledgments
+
+This application is based on the original **Accessible YouTube Downloader Pro** developed by **Sulaiman Al Qusaimi**. Ahmed Farid has enhanced and extended the original project with additional features, improvements, and ongoing maintenance.
+
+**Original Developer:** Sulaiman Al Qusaimi  
+**Original Repository:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro  
+**Current Developer & Maintainer:** Ahmed Farid
+
+We thank Sulaiman Al Qusaimi for creating the foundation of this accessible software that serves the blind and visually impaired community.
 
 ---
 
@@ -24,9 +36,9 @@ Welcome to Accessible Media Player, a fully accessible YouTube browser, download
 
 ### Installation
 
-1. **Download** the latest version from the [GitHub Releases page](https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/releases)
-2. **Run** the executable file - no installation required!
-3. The application is **portable** - you can run it from any location
+1. **Download** the latest version from the [GitHub Releases page](https://github.com/ahmedfarid59/accessible_media_player/releases)
+2. **Run** the installer or portable executable
+3. The application can be installed or run as portable
 
 ### First Launch
 
@@ -256,7 +268,7 @@ pip install --upgrade youtube-search-python yt-dlp requests
 - Try opening YouTube in a browser
 
 **Solution 3 - Check Logs:**
-- Go to `%APPDATA%\accessible youtube downloader pro\logs\`
+- Go to `%APPDATA%\Accessible Media Player\logs\`
 - Open the latest log file
 - Look for ERROR messages
 - Report issues with log details
@@ -291,7 +303,7 @@ pip install --upgrade youtube-search-python yt-dlp requests
 ### Application Crashes
 
 **Steps:**
-1. Check log file in `%APPDATA%\accessible youtube downloader pro\logs\`
+1. Check log file in `%APPDATA%\Accessible Media Player\logs\`
 2. Note the error message
 3. Report issue on GitHub with:
    - Error message from log
@@ -354,7 +366,7 @@ Downloads are saved to your specified folder.
 
 ### How do I report bugs or request features?
 
-Visit the [GitHub Issues page](https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/issues)
+Visit the [GitHub Issues page](https://github.com/ahmedfarid59/accessible_media_player/issues)
 
 ---
 
@@ -362,8 +374,8 @@ Visit the [GitHub Issues page](https://github.com/sulaiman-alqusaimi/accessible_
 
 ### Resources
 
-- **GitHub Repository:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro
-- **Issue Tracker:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/issues
+- **GitHub Repository:** https://github.com/ahmedfarid59/accessible_media_player
+- **Issue Tracker:** https://github.com/ahmedfarid59/accessible_media_player/issues
 - **Email Support:** Contact Ahmed Farid through GitHub
 
 ### Reporting Issues
@@ -381,12 +393,12 @@ When reporting issues, please include:
 
 Logs are stored in:
 ```
-%APPDATA%\accessible youtube downloader pro\logs\app_YYYYMMDD.log
+%APPDATA%\Accessible Media Player\logs\app_YYYYMMDD.log
 ```
 
 To access:
 1. Press **Windows+R**
-2. Type: `%APPDATA%\accessible youtube downloader pro\logs`
+2. Type: `%APPDATA%\Accessible Media Player\logs`
 3. Press Enter
 4. Open the latest log file
 
@@ -394,13 +406,29 @@ To access:
 
 ## About
 
-**Accessible Media Player** is developed by **Ahmed Farid** with contributions from:
+### Development Credits
+
+**Current Developer & Maintainer:** Ahmed Farid  
+**Original Developer:** Sulaiman Al Qusaimi (Accessible YouTube Downloader Pro)
+
+Accessible Media Player is based on the original **Accessible YouTube Downloader Pro** created by **Sulaiman Al Qusaimi**. Ahmed Farid has taken over development, adding significant enhancements, new features, and ongoing improvements while maintaining the accessible foundation that Sulaiman built.
+
+**Additional Contributors:**
 - Abdullah Zain Aldeen (Morocco)
 - Mustafa Elçiçek (Turkey)
 
+### Version Information
+
 **Version:** 1.5.7  
 **License:** GNU General Public License v3.0  
-**Copyright:** © 2024 Ahmed Farid
+**Copyright:** © 2024 Ahmed Farid  
+**Original Work:** © Sulaiman Al Qusaimi
+
+### Acknowledgments
+
+Special thanks to **Sulaiman Al Qusaimi** for creating the original accessible YouTube downloader that serves the blind and visually impaired community. This project builds upon that excellent foundation.
+
+**Original Project:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro
 
 ---
 

@@ -25,12 +25,14 @@ datas = [
     ('source/plugins', 'plugins'),              # VLC plugins
     ('source/languages', 'languages'),          # Translation files
     ('source/assets', 'assets'),                # Icons, version info, etc.
-    ('source/docs', 'docs'),                    # User documentation
+    ('source/docs', 'docs'),                    # User documentation (legacy)
+    ('USER_GUIDE.md', '.'),                     # Main user guide (markdown)
 ]
 
 # Hidden imports that PyInstaller might miss
 hiddenimports = [
     'wx',
+    'wx.html',
     'wx.lib.scrolledpanel',
     'wx.lib.agw',
     'vlc',
@@ -41,6 +43,7 @@ hiddenimports = [
     'json',
     'urllib',
     'concurrent.futures',
+    'markdown',
 ]
 
 a = Analysis(

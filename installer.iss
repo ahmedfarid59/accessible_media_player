@@ -4,7 +4,7 @@
 #define MyAppName "Accessible Media Player"
 #define MyAppVersion "1.5.7"
 #define MyAppPublisher "Ahmed Farid"
-#define MyAppURL "https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro"
+#define MyAppURL "https://github.com/ahmedfarid59/accessible_media_player"
 #define MyAppExeName "accessible_media_player.exe"
 
 [Setup]
@@ -52,4 +52,4 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
-Type: filesandordirs; Name: "{localappdata}\accessible youtube downloader pro"
+Type: filesandordirs; Name: "{localappdata}\Accessible Media Player"

@@ -4,7 +4,7 @@ import wx
 class DownloadProgress(wx.Frame):
 	def __init__(self, parent, title=""):
 		wx.Frame.__init__(self, parent=parent)
-		self.Title = _("جاري التنزيل - {}").format(title if title != "" else "accessible youtube downloader pro")
+		self.Title = _("جاري التنزيل - {}").format(title if title != "" else "Accessible Media Player")
 		self.Centre()
 		panel = wx.Panel(self)
 		self.textProgress = wx.Choice(panel, -1, choices=[_("نسبة التنزيل: {}%").format(0), _("حجم الملف الإجمالي: {} {}"), _("مقدار الحجم الذي تم تنزيله: {} {}"), _("المقدار المتبقي: {} {}"), _("سرعة التنزيل: {} {}")])

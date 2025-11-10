@@ -203,7 +203,7 @@ LOGGING.md          → Logging system (existing)
 ## Contact
 
 For questions about these documentation changes:
-- **GitHub Issues:** https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/issues
+- **GitHub Issues:** https://github.com/ahmedfarid59/accessible_media_player/issues
 - **Author:** Ahmed Farid (through GitHub)
 
 ---

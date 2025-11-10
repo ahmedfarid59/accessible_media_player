@@ -247,7 +247,7 @@ def update_update_info(exe_path):
     print_header("Updating Release Info")
     
     # GitHub release URL pattern
-    github_url = f"https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/releases/download/v{__version__}/{exe_path.name}"
+    github_url = f"https://github.com/ahmedfarid59/accessible_media_player/releases/download/v{__version__}/{exe_path.name}"
     
     update_info = {
         "version": __version__,

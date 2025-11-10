@@ -1,5 +1,5 @@
 """
-Logging configuration for Accessible YouTube Downloader Pro
+Logging configuration for Accessible Media Player
 """
 import logging
 import os
@@ -25,11 +25,10 @@ def setup_logging():
     
     # Configure logging
     logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s',
+        level=logging.INFO,
+        format='%(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler(log_path, encoding='utf-8'),
-            logging.StreamHandler()  # Also print to console
+            logging.FileHandler(log_path, encoding='utf-8')
         ]
     )
     

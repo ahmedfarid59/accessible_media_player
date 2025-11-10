@@ -1,10 +1,18 @@
-User Guide for the Accessible YouTube Browser and Downloader: Accessible YouTube Downloader Pro
+User Guide for Accessible Media Player
 About the Software:
 Software Name: {name}
 Version: {version}
-Developed by: {author}
+Current Developer: {author}
+Original Developer: Sulaiman Al Qusaimi
+
+Credits:
+This application is based on the original "Accessible YouTube Downloader Pro" created by Sulaiman Al Qusaimi. Ahmed Farid has enhanced and continues to develop the project with new features and improvements.
+
+Original Project Repository:
+https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro
+
 Description:
-The Accessible YouTube Downloader Pro is an advanced version of its predecessor, the Accessible YouTube Downloader. It's specifically designed to cater to the needs of visually impaired users of computers running the Windows operating system. The program offers a comprehensive and compatible user experience for the popular video hosting service, YouTube, by providing an easy-to-use interface that is suitable for screen readers. This is especially useful since there isn’t an official application for interacting with YouTube on the Windows operating system.
+Accessible Media Player is a fully accessible YouTube browser, downloader, and media player designed specifically for visually impaired users of computers running the Windows operating system. The program offers a comprehensive and compatible user experience for YouTube, by providing an easy-to-use interface optimized for screen readers like NVDA. This is especially useful since there isn't an official accessible application for interacting with YouTube on Windows.
 Note: The software might not work efficiently with older versions of Windows, such as Windows 7, due to the discontinuation of support for recent Python versions on those systems.
 The software boasts several features, summarized as follows:
 1.
@@ -69,7 +77,7 @@ About the Software: This item displays a brief tooltip message containing some i
 Contact Me: This item leads to a submenu containing several options through which you can communicate with the developer.
  
 Program Preferences:
-In the "Accessible YouTube Downloader Pro", we offer a simple dialog where you can adjust the software's features to your liking.
+In Accessible Media Player, we offer a simple dialog where you can adjust the software's features to your liking.
 You can access the settings from the main program menu or by using the shortcut key "Alt+S".
 The options that can be adjusted from the settings window are:
 1.
@@ -274,10 +282,10 @@ Activate it by pressing Enter.
 Shortcut Key:
 •
 Use the shortcut key Control+D (or its Arabic equivalent Control+ي).
-Regardless of the method you used to access, you'll be in a download dialog which mirrors the interface of the "accessible YouTube downloader" lite version. Here, you can download various YouTube links including channels, playlists, and individual videos. Playlists and channels will be saved in a dedicated folder named after the channel or playlist.
+Regardless of the method you used to access, you'll be in a download dialog. Here, you can download various YouTube links including channels, playlists, and individual videos. Playlists and channels will be saved in a dedicated folder named after the channel or playlist.
 The first field in this dialog is where you input the download link. The software will automatically recognize the link, eliminating the need for manual pasting. The next component lets you select the type of download – either audio or video. If you choose to download audio, the subsequent option will allow you to select the audio format, either m4a (faster option) or mp3. The next button, labeled "Download," starts the download process for the given link once you press Enter.
 Note:
-You can quickly change the download path directly from the download dialog using a dedicated button. It's essential to understand that the path chosen here will only apply to the current download and won't be saved in the program settings. If you wish to permanently change the default path, do it through the program settings, as explained earlier. The reason for including a path change option in this dialog is for users who might want to download specific content to a particular location for a one-time occurrence, without the hassle of altering the main settings. The default download folder for the program is titled "accessible YouTube downloader" located within the user's downloads folder.
+You can quickly change the download path directly from the download dialog using a dedicated button. It's essential to understand that the path chosen here will only apply to the current download and won't be saved in the program settings. If you wish to permanently change the default path, do it through the program settings, as explained earlier. The reason for including a path change option in this dialog is for users who might want to download specific content to a particular location for a one-time occurrence, without the hassle of altering the main settings. The default download folder for the program is titled "Accessible Media Player" located within the user's downloads folder.
  
 Playing YouTube Links:
 If you have a YouTube link for a specific video—perhaps one you received through communication means like email—and you wish to play it using the software to benefit from its built-in media player features, it's a straightforward process. Start the program and press the shortcut `control+y`. This will prompt a dialog box where you'll be asked to provide the video link and specify if you'd like to play it as audio or video. By default, the software will detect any copied link and automatically place it in the link field. When you play the video in this manner, you can utilize all the media player features of the software, as previously described. Furthermore, you'll also have the option to download the clip directly from within the player.

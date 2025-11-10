@@ -6,10 +6,10 @@ from logger_config import get_logger
 
 logger = get_logger(__name__)
 
-# settings_path = os.path.join(os.getenv("appdata"), "accessible youtube downloader pro")
+# settings_path = os.path.join(os.getenv("appdata"), "Accessible Media Player")
 
 defaults = {
-	"path": f"{os.getenv('USERPROFILE')}\\downloads\\accessible youtube downloader",
+	"path": f"{os.getenv('USERPROFILE')}\\downloads\\Accessible Media Player",
 	"defaultaudio": 0,
 	"lang": get_default_language(),
 	"autodetect": True,
@@ -96,12 +96,12 @@ def set_file_association(extension, enable=True):
 		try:
 			# Get the path to the Python executable and script
 			exe_path = sys.executable
-			script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "accessible_youtube_downloader_pro.py"))
+			script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "accessible_media_player.py"))
 			logger.debug(f"Python executable: {exe_path}")
 			logger.debug(f"Script path: {script_path}")
 			
 			# Create ProgID key
-			prog_id = f"AccessibleYouTubeDownloaderPro.{extension}"
+			prog_id = f"AccessibleMediaPlayer.{extension}"
 			logger.debug(f"Creating ProgID: {prog_id}")
 			
 			# Create file type association
@@ -113,7 +113,7 @@ def set_file_association(extension, enable=True):
 			
 			# Create ProgID key with command
 			prog_key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, f"Software\\Classes\\{prog_id}")
-			winreg.SetValue(prog_key, "", winreg.REG_SZ, f"Accessible YouTube Downloader Pro - {extension.upper()}")
+			winreg.SetValue(prog_key, "", winreg.REG_SZ, f"Accessible Media Player - {extension.upper()}")
 			
 			# Create shell\open\command key
 			command_key = winreg.CreateKey(prog_key, "shell\\open\\command")
@@ -132,7 +132,7 @@ def set_file_association(extension, enable=True):
 	else:
 		try:
 			# Remove file association
-			prog_id = f"AccessibleYouTubeDownloaderPro.{extension}"
+			prog_id = f"AccessibleMediaPlayer.{extension}"
 			key_path = f".{extension}"
 			logger.debug(f"Attempting to remove file association for {key_path}")
 			
