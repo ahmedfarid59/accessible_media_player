@@ -359,26 +359,58 @@ class YoutubeBrowser(wx.Frame):
 	def onFavorite(self, event):
 		n = self.searchResults.Selection
 		url = self.search.get_url(n)
+		item_type = self.search.get_type(n)  # Get type: video or playlist
+		
 		if self.favCheck.Value:
 			title = self.search.get_title(n)
-			display_title = f"{title}. {self.search.get_channel(n)['name']}"
-			channel_url = self.search.get_channel(n)['url']
-			channel_name = self.search.get_channel(n)['name']
-			live = 1 if not self.search.get_views(n) else 0
-			data = {"title": title, "display_title": display_title, "url": url, "live": live, "channel_url": channel_url, "channel_name": channel_name}
+			channel_info = self.search.get_channel(n)
+			display_title = f"{title}. {channel_info['name']}"
+			channel_url = channel_info['url']
+			channel_name = channel_info['name']
+			
+			# Prepare data based on type
+			data = {
+				"title": title, 
+				"display_title": display_title, 
+				"url": url, 
+				"live": 1 if (item_type == "video" and not self.search.get_views(n)) else 0, 
+				"channel_url": channel_url, 
+				"channel_name": channel_name,
+				"type": item_type,  # video or playlist
+				"item_count": 0  # For playlists, could be extracted from search results
+			}
+			
 			self.favorites.add_favorite(data)
-			speak(_("تمت إضافة الفيديو إلى قائمة المفضلة"))
+			if item_type == "playlist":
+				speak(_("تمت إضافة قائمة التشغيل إلى المفضلة"))
+			else:
+				speak(_("تمت إضافة الفيديو إلى قائمة المفضلة"))
 		else:
 			self.favorites.remove_favorite(url)
-			speak(_("تم حذف الفيديو من قائمة المفضلة"))
+			if item_type == "playlist":
+				speak(_("تم حذف قائمة التشغيل من المفضلة"))
+			else:
+				speak(_("تم حذف الفيديو من قائمة المفضلة"))
 
 	def togleFavorite(self):
 		n = self.searchResults.Selection
-		self.favCheck.Enabled = self.search.get_type(n) == "video"
+		item_type = self.search.get_type(n)
+		
+		# Enable favorite checkbox for both videos and playlists
+		self.favCheck.Enabled = item_type in ("video", "playlist")
+		
 		if not self.favCheck.Enabled:
 			return
+			
+		# Update label based on type
+		if item_type == "playlist":
+			self.favCheck.Label = _("تفضيل قائمة التشغيل")
+		else:
+			self.favCheck.Label = _("تفضيل الفيديو")
+			
 		rows = self.favorites.get_all()
 		url = self.search.get_url(n)
+		
 		def check_url(url):
 			for row in rows:
 				if url == row["url"]:

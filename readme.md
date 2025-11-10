@@ -1,95 +1,120 @@
-# accessible_youtube_downloader_pro
-an accessible youtube browser and downloader desktop application designed for nvda screan reader users
+# Accessible Media Player
 
-## Features
-- YouTube search and browsing
-- Video downloading from links
-- Playing YouTube videos
-- Managing favorite videos
-- **NEW: Local media file playback with file format associations**
+**Version 1.5.7**  
+**Author: Ahmed Farid**
 
-## Getting Started
+An accessible YouTube browser, downloader, and media player desktop application designed specifically for NVDA screen reader users.
 
-### Installation
+---
+
+## ✨ Features
+
+- 🔍 **YouTube Search & Browse** - Search and explore YouTube content
+- ⬇️ **Video Downloads** - Download videos in multiple formats and qualities
+- ▶️ **Media Playback** - Play YouTube videos and local media files
+- ⭐ **Favorites Management** - Save and organize favorite videos
+- 🎵 **Audio Extraction** - Download audio-only from videos
+- 📁 **File Associations** - Associate video/audio formats with the player
+- 🌍 **Multi-Language** - English, French, Italian, Turkish, Arabic
+- ♿ **Fully Accessible** - Optimized for NVDA screen reader
+
+---
+
+## 📥 For Users
+
+### Quick Start
+
+1. **Download** the latest version from [GitHub Releases](https://github.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/releases)
+2. **Run** the executable - **no installation required!**
+3. **Start searching** for YouTube videos
+
+### 📖 Documentation
+
+- **[User Guide](USER_GUIDE.md)** - Complete guide with features, shortcuts, and troubleshooting
+- **[Quick Start](QUICK_START.md)** - Get started quickly
+- **[File Associations](FILE_ASSOCIATIONS.md)** - Set up file format associations
+- **[Troubleshooting](YOUTUBE_SEARCH_FIX.md)** - Fix common issues
+
+### 💻 Running from Source
+
+If you prefer to run from source:
+
+**With uv (recommended):**
+```cmd
+uv pip install -r requirements.txt
+python source\accessible_media_player.py
+```
 
 **With pip:**
 ```cmd
 pip install -r requirements.txt
+python source\accessible_media_player.py
 ```
 
-**With uv (faster):**
-```cmd
-uv pip install -r requirements.txt
-```
+---
 
-### Running the Application
-```cmd
-python source\accessible_youtube_downloader_pro.py
-```
+## 🔧 Troubleshooting
 
-## New Feature: File Associations
-You can now associate video and audio file formats with the app's media player:
-- Supported formats: MP4, AVI, MKV, WEBM, FLV, MP3, M4A, WAV, FLAC, OGG
-- Open local files with Ctrl+O or from Windows Explorer
-- Configure in Settings (Alt+S) → File Format Associations panel
+### YouTube Search Issues
 
-For detailed instructions, see:
-- [Quick Start Guide](QUICK_START.md)
-- [File Associations Documentation](FILE_ASSOCIATIONS.md)
-- [Implementation Summary](IMPLEMENTATION_SUMMARY.md)
-
-## Recent Fixes
-
-### YouTube Search Error Fix
 If you're getting "Unable to get search results" error:
 
-1. **For "proxies" error** (most common):
-   
-   **With uv:**
-   ```cmd
-   uv pip install --upgrade youtube-search-python requests
-   ```
-   
-   **With pip:**
-   ```cmd
-   pip install --upgrade youtube-search-python requests
-   ```
+**Quick Fix:**
+```cmd
+pip install --upgrade youtube-search-python yt-dlp requests
+```
 
-2. **General fix:**
-   
-   **With uv:**
-   ```cmd
-   uv pip install --upgrade youtube-search-python yt-dlp requests
-   ```
-   
-   **With pip:**
-   ```cmd
-   pip install --upgrade youtube-search-python yt-dlp requests
-   ```
+**For detailed solutions, see:**
+- [YouTube Search Fix Guide](YOUTUBE_SEARCH_FIX.md)
+- [User Guide - Troubleshooting](USER_GUIDE.md#troubleshooting)
 
-3. **Run diagnostic:**
-   ```cmd
-   python diagnose_youtube_search.py
-   ```
+### Logs
 
-4. **See documentation:**
-   - [UV Quick Fix](UV_QUICK_FIX.md) - **For UV users**
-   - [Fix for Proxies Error](FIX_PROXIES_ERROR.md) - **For pip users**
-   - [YouTube Search Fix Guide](YOUTUBE_SEARCH_FIX.md)
-   - [LoadingDialog Fix](LOADINGDIALOG_FIX.md)
-   - [Error Handling Improvements](ERROR_HANDLING_IMPROVEMENTS.md)
+The application includes comprehensive logging:
+- **Location:** `%APPDATA%\accessible youtube downloader pro\logs\app_YYYYMMDD.log`
+- **What's logged:** Searches, downloads, playback, errors
+- **See:** [Logging Documentation](LOGGING.md)
 
-## Troubleshooting
+When reporting issues, include relevant ERROR messages from the log file.
 
-### Logging System
-The application now includes comprehensive logging to help trace issues:
-- **Log location**: `%APPDATA%\accessible youtube downloader pro\logs\app_YYYYMMDD.log`
-- **What's logged**: Searches, downloads, playback, errors, network issues
-- **See**: [Logging Documentation](LOGGING.md) for detailed information
+---
 
-When reporting issues, check the log file for ERROR messages and include relevant lines.
+## 👨‍💻 For Developers
 
-# contributers
-* Sulaiman Al Qusaimi, Oman
-* Abdullah Zain Aldeen: Moroco
-* Mustafa Elçiçek, Turkia
+Want to build, modify, or contribute? See our developer documentation:
+
+**[BUILDING.md](BUILDING.md)** - Complete developer guide:
+- Development environment setup
+- Building executables with PyInstaller
+- Creating installers with Inno Setup
+- Testing and debugging
+- Release process
+- Contributing guidelines
+
+**Quick Build:**
+```cmd
+# Install dependencies
+pip install -r requirements.txt
+pip install pyinstaller
+
+# Build executable
+python build.py --clean
+
+# Build with installer
+python build.py --clean --installer
+```
+
+---
+
+## Author
+**Ahmed Farid** - Lead Developer
+
+## Contributors
+* Abdullah Zain Aldeen, Morocco
+* Mustafa Elçiçek, Turkey
+
+## License
+Copyright © 2024 Ahmed Farid
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
+See [LICENSE](LICENSE) file for details.

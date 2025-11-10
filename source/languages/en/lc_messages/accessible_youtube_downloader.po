@@ -929,3 +929,22 @@ msgstr "developed by"
 
 msgid "اسم البرنامج"
 msgstr "app name"
+
+# New translations for playlist favorites
+msgid "تمت إضافة قائمة التشغيل إلى المفضلة"
+msgstr "Playlist added to favorites"
+
+msgid "تم حذف قائمة التشغيل من المفضلة"
+msgstr "Playlist removed from favorites"
+
+msgid "تفضيل قائمة التشغيل"
+msgstr "Favorite playlist"
+
+msgid "تفضيل الفيديو"
+msgstr "Favorite video"
+
+msgid "قائمة التشغيل"
+msgstr "Playlist"
+
+msgid "فتح ملف محلي\tctrl+o"
+msgstr "Open local file\tctrl+o"

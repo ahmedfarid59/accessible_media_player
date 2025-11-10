@@ -1,1 +1,46 @@
+# Python virtual environments
 .venv
+venv/
+ENV/
+env/
+
+# Build artifacts
+build/
+dist/
+installer_output/
+*.egg-info/
+
+# PyInstaller
+*.spec.bak
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

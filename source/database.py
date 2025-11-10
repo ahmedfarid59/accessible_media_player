@@ -19,8 +19,27 @@ def is_valid(function):
 
 @is_valid
 def prepare_tables():
-	favorites_query = """create table if not exists favorite (id integer primary key, title text not null, display_title text not null, url text not null, is_live integer not null, channel_name text not null, channel_url not null)"""
+	favorites_query = """create table if not exists favorite (
+		id integer primary key, 
+		title text not null, 
+		display_title text not null, 
+		url text not null, 
+		is_live integer not null, 
+		channel_name text not null, 
+		channel_url not null,
+		type text default 'video',
+		item_count integer default 0
+	)"""
 	con.execute(favorites_query)
+	# Add type and item_count columns to existing tables
+	try:
+		con.execute("ALTER TABLE favorite ADD COLUMN type text default 'video'")
+	except:
+		pass  # Column already exists
+	try:
+		con.execute("ALTER TABLE favorite ADD COLUMN item_count integer default 0")
+	except:
+		pass  # Column already exists
 	con.commit()
 	continue_quiry = "create table if not exists continue (id integer primary key, url text not null, position real not null)"
 	con.execute(continue_quiry)
@@ -33,8 +52,12 @@ def disconnect():
 class Favorite:
 	@is_valid
 	def add_favorite(self, data):
-		query = f"""insert into favorite (title, display_title, url, is_live, channel_name, channel_url) 
-values ("{data['title']}", "{data['display_title']}" ,"{data['url']}", {data['live']}, "{data['channel_name']}", "{data['channel_url']}")"""
+		# Support for videos, playlists, and folders
+		item_type = data.get('type', 'video')
+		item_count = data.get('item_count', 0)
+		
+		query = f"""insert into favorite (title, display_title, url, is_live, channel_name, channel_url, type, item_count) 
+values ("{data['title']}", "{data['display_title']}" ,"{data['url']}", {data.get('live', 0)}, "{data.get('channel_name', '')}", "{data.get('channel_url', '')}", "{item_type}", {item_count})"""
 		con.execute(query)
 		con.commit()
 
@@ -44,16 +67,18 @@ values ("{data['title']}", "{data['display_title']}" ,"{data['url']}", {data['li
 		con.commit()
 	@is_valid
 	def get_all(self):
-		cursor = con.execute("select title, display_title, url, is_live, channel_name, channel_url from favorite").fetchall()
+		cursor = con.execute("select title, display_title, url, is_live, channel_name, channel_url, type, item_count from favorite").fetchall()
 		data = []
-		for title, display_title, url, live, channel_name, channel_url in cursor:
+		for title, display_title, url, live, channel_name, channel_url, item_type, item_count in cursor:
 			row = {
 				"title": title,
 				"display_title": display_title,
 				"url": url,
 				"live": live,
 				"channel_name": channel_name,
-				"channel_url": channel_url
+				"channel_url": channel_url,
+				"type": item_type or "video",  # Default to video if None
+				"item_count": item_count or 0
 			}
 			data.append(row)
 		return data
