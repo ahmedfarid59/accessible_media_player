@@ -33,7 +33,7 @@ PROJECT_ROOT = Path(__file__).parent
 SOURCE_DIR = PROJECT_ROOT / "source"
 BUILD_DIR = PROJECT_ROOT / "build"
 DIST_DIR = PROJECT_ROOT / "dist"
-SPEC_FILE = PROJECT_ROOT / "accessible_youtube_downloader_pro.spec"
+SPEC_FILE = PROJECT_ROOT / "accessible_media_player.spec"
 MAIN_SCRIPT = SOURCE_DIR / "accessible_media_player.py"
 VERSION_INFO_FILE = SOURCE_DIR / "assets" / "version_info.txt"
 UPDATE_INFO_FILE = PROJECT_ROOT / "update_info.json"
@@ -165,7 +165,7 @@ def run_pyinstaller():
     
     if not SPEC_FILE.exists():
         print(f"❌ Spec file not found: {SPEC_FILE}")
-        print("   Please ensure accessible_youtube_downloader_pro.spec exists")
+        print("   Please ensure accessible_media_player.spec exists")
         return False
     
     try:
